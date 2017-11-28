@@ -15,9 +15,9 @@ class UnaryNode:
         self.arg1 = arg1
 
     def eval(self, lookup):
-        if (arg1 is None):
+        if self.arg1 is None:
             raise ValueError("Arg1 should not be None")
-        return self.fn(arg1.eval(lookup))
+        return self.fn(self.arg1.eval(lookup))
 
 
 class BinaryNode:
@@ -28,8 +28,8 @@ class BinaryNode:
         self.arg2 = arg2
 
     def eval(self, lookup):
-        if (arg1 is None):
+        if self.arg1 is None:
             raise ValueError("Arg1 should not be None")
-        if (arg2 is None):
+        if self.arg2 is None:
             raise ValueError("Arg2 should not be None")
-        return self.fn(arg1.eval(lookup), arg2.eval(lookup))
+        return self.fn(self.arg1.eval(lookup), self.arg2.eval(lookup))
