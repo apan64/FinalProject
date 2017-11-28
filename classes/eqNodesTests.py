@@ -26,6 +26,28 @@ def testUnaryNode1():
         print('Unary Node Test 1 Failed!')
 
 
+def testBinaryNode1():
+    a = VariableNode(name='a')
+    b = VariableNode(name='b')
+    a_and_b = BinaryNode(fn=lambda x, y: (x and y), name='and', arg1=a, arg2=b)
+
+    if a_and_b.eval({'a': True, 'b': True}) is True:
+        print('Binary Node Test 1 Passed')
+    else:
+        print('Binary Node Test 1 Failed!')
+
+
+def testBinaryNode2():
+    a = VariableNode(name='a')
+    not_a = UnaryNode(fn=lambda x: not(x), name='not', arg1=a)
+    b = VariableNode(name='b')
+
+    if not_a.eval({'a': True}) is False:
+        print('Unary Node Test 1 Passed')
+    else:
+        print('Unary Node Test 1 Failed!')
+
 testVariableNode1()
 testVariableNode2()
 testUnaryNode1()
+testBinaryNode1()
