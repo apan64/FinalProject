@@ -3,6 +3,8 @@ class VariableNode:
         self.name = name.lower()
 
     def eval(self, lookup):
+        if self.name not in lookup:
+            raise KeyError("{0} not found in {1}".format(self.name, str(lookup)))
         return lookup[self.name]
 
 
