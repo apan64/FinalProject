@@ -18,9 +18,12 @@ def findPrimeImplicants(minterms, num_inputs):
     bin_rep = ["{0:b}".format(t).zfill(num_inputs) for t in minterms]
     implicants.append(Implicant(b, [m], True) for (b, m) in zip(bin_rep, minterms))
     grouped = groupByNum1s(implicants[0])
-    print(reduce(grouped[2], grouped[3]))
 
     # Step 2: Apply adjacency property to reduce implicants
+    new_implicants = []
+    for i in range(num_inputs):
+        n, grouped[i], grouped[i+1] = reduce(grouped[i], grouped[i+1])
+        new_implicants += n
 
 
 def groupByNum1s(implicants):
@@ -36,17 +39,21 @@ def groupByNum1s(implicants):
 def reduce(implicants_1, implicants_2):
     """ takes 2 lists of implicants and
         returns a list of the reduced implicants
+        and implicants marked prime/not prime
     ."""
     if implicants_1 is [] or implicants_2 is []:
-        return []
+        return [], implicants_1, implicants_2
     ret = []
-    for i_1 in implicants_1:
-        for i_2 in implicants_2:
+    for j, i_1 in enumerate(implicants_1):
+        for k, i_2 in enumerate(implicants_2):
             diff_letters = sum(x != y for x, y in zip(i_1.bin_str, i_2.bin_str))
             if diff_letters == 1:
                 combined = ''.join(['-' if x != y else x for x, y in zip(i_1.bin_str, i_2.bin_str)])
                 ret.append(Implicant(combined, i_1.minterms+i_2.minterms, True))
-    return ret
+                # Set the used implicants as not prime
+                implicants_1[j] = Implicant(i_1.bin_str, i_1.minterms, False)
+                implicants_2[k] = Implicant(i_2.bin_str, i_2.minterms, False)
+    return ret, implicants_1, implicants_2
 
 
 findPrimeImplicants([2, 3, 7, 5], 3)
