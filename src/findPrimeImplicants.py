@@ -1,4 +1,6 @@
-from collections import defaultdict
+from collections import defaultdict, namedtuple
+
+Implicant = namedtuple('Implicant', ['bin_str', 'minterms', 'isPrime'])
 
 
 def findPrimeImplicants(minterms, num_inputs):
@@ -14,7 +16,7 @@ def findPrimeImplicants(minterms, num_inputs):
     implicants = []
     # 2 -> '010', 3 -> '011'
     bin_rep = ["{0:b}".format(t).zfill(num_inputs) for t in minterms]
-    implicants.append(list(zip(bin_rep, minterms)))
+    implicants.append(Implicant(b, [m], True) for (b, m) in zip(bin_rep, minterms))
     grouped = groupByNum1s(implicants[0])
     print(reduce(grouped[2], grouped[3]))
 
@@ -25,9 +27,8 @@ def groupByNum1s(implicants):
     """Groups a list of binary strings into lists based on the # of 1s"""
     grouped = defaultdict(list)
     for i in implicants:
-        bin_str = i[0]
         print(i)
-        num_1s = sum([int(bit) for bit in bin_str])
+        num_1s = sum([int(bit) for bit in i.bin_str])
         grouped[num_1s].append(i)
     return grouped
 
@@ -41,12 +42,10 @@ def reduce(implicants_1, implicants_2):
     ret = []
     for i_1 in implicants_1:
         for i_2 in implicants_2:
-            bin_1, min_t_1 = i_1
-            bin_2, min_t_2 = i_2
-            diff_letters = sum(x != y for x, y in zip(bin_1, bin_2))
+            diff_letters = sum(x != y for x, y in zip(i_1.bin_str, i_2.bin_str))
             if diff_letters == 1:
-                combined = ''.join(['-' if x != y else x for x, y in zip(bin_1, bin_2)])
-                ret.append((combined, [min_t_1, min_t_2]))
+                combined = ''.join(['-' if x != y else x for x, y in zip(i_1.bin_str, i_2.bin_str)])
+                ret.append(Implicant(combined, i_1.minterms+i_2.minterms, True))
     return ret
 
 
