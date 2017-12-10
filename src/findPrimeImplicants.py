@@ -29,8 +29,9 @@ def findPrimeImplicants(minterms, num_inputs):
         prime_implicants += list(filter(lambda x: x.isPrime, vals))
         # print(prime_implicants)
         current_implicants = new_implicants
-    for p in prime_implicants:
-        print(p)
+    # for p in prime_implicants:
+    #     print(p)
+    return prime_implicants
 
 
 def groupByNum1s(implicants):
@@ -63,4 +64,4 @@ def reduce(implicants_1, implicants_2):
     return list(ret), implicants_1, implicants_2
 
 
-findPrimeImplicants([0, 4, 5, 7, 8, 11, 12, 15], 4)
+# findPrimeImplicants([0, 4, 5, 7, 8, 11, 12, 15], 4)

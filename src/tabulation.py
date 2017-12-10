@@ -1,3 +1,5 @@
+from eqNodes import VariableNode, UnaryNode, BinaryNode
+
 def cost(PI):
 	return 1 + sum(1 for x in PI if x != '-')
 
@@ -22,15 +24,17 @@ def convertToTree(comb):
         for i, val in enumerate(pi):
             if (val != '-'):
                 inputs.add(chr(97 + i))
-    print(inputs)
+    inputNodes = {i: VariableNode(i) for i in inputs}
+    
     return
 
 
-def tabulationSingleOutput(primeImplicants, minTerms):
+def tabulationSingleOutput(implicants, minTerms):
     '''
     Input: dictionary mapping prime implicants to the minTerms they cover
     Output: head node of tree
     '''
+    primeImplicants = {i.bin_str: list(i.minterms) for i in implicants}
     piAns = set()
     dominated = set()
 
@@ -63,6 +67,6 @@ def tabulationSingleOutput(primeImplicants, minTerms):
     print(bestComb)
     return convertToTree(bestComb)
 
-print(tabulationSingleOutput({('1', '1', '-', '0'): [1, 4], ('1', '-', '-', '0'): [2, 4, 7], ('-', '0', '1', '1'): [5], ('0', '1', '-', '-'): [1, 4, 5]}, [1, 2, 4, 5, 7]))
+# print(tabulationSingleOutput({'11-0': [1, 4], '1--0': [2, 4, 7], '-011': [5], '01--': [1, 4, 5]}, [1, 2, 4, 5, 7]))
 
     
