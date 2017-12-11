@@ -6,7 +6,8 @@ class VariableNode:
         if self.name not in lookup:
             raise KeyError("{0} not found in {1}".format(self.name, str(lookup)))
         return lookup[self.name]
-    def toString(self):
+
+    def __repr__(self):
         return self.name
 
 
@@ -20,8 +21,9 @@ class UnaryNode:
         if self.arg1 is None:
             raise ValueError("Arg1 should not be None")
         return self.fn(self.arg1.eval(lookup))
-    def toString(self):
-        return self.name + self.arg1.toString()
+
+    def __repr__(self):
+        return "{0}({1})".format(self.name, self.arg1)
 
 
 class BinaryNode:
@@ -37,5 +39,6 @@ class BinaryNode:
         if self.arg2 is None:
             raise ValueError("Arg2 should not be None")
         return self.fn(self.arg1.eval(lookup), self.arg2.eval(lookup))
-    def toString(self):
-        return self.name + self.arg1.toString() + self.arg2.toString()
+
+    def __repr__(self):
+        return "{0}({1}, {2})".format(self.name, self.arg1, self.arg2)

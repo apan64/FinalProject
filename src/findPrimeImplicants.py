@@ -15,6 +15,8 @@ def findPrimeImplicants(fnToMinTerms, num_inputs):
     all_terms = list(set(chain.from_iterable(fnToMinTerms)))
     # 2 -> '010', 3 -> '011'
     bin_rep = ["{0:b}".format(t).zfill(num_inputs) for t in all_terms]
+    print(bin_rep)
+    print(all_terms)
     # Store which minTerm belongs to which function
     tags = {}
     for t in all_terms:
@@ -29,6 +31,7 @@ def findPrimeImplicants(fnToMinTerms, num_inputs):
     for i in range(num_inputs):
         # Step 1: Group minterms based on # of 1's
         grouped = groupByNum1s(current_implicants)
+
         # Step 2: Apply adjacency property to reduce implicants
         new_implicants = []
         for i in range(num_inputs):
@@ -65,11 +68,11 @@ def reduce(implicants_1, implicants_2):
                     combined = ''.join(['-' if x != y else x for x, y in zip(i_1.bin_str, i_2.bin_str)])
                     newTag = combineTags(i_1.fnTags, i_2.fnTags)
                     ret.add(Implicant(combined, i_1.minterms | i_2.minterms, True, newTag))
-                    # Only set implicants to false if the new tag is
-                    # The same as the old ones
-                    if newTag == i_1.fnTags == i_2.fnTags:
-                        # Set the used implicants as not prime
+                    # If new implicant is used in same functions, old implicant is not prime
+                    if (newTag == i_1.fnTags):
+                        # print('got here')
                         implicants_1[j] = Implicant(i_1.bin_str, i_1.minterms, False, i_1.fnTags)
+                    if (newTag == i_2.fnTags):
                         implicants_2[k] = Implicant(i_2.bin_str, i_2.minterms, False, i_2.fnTags)
     return list(ret), implicants_1, implicants_2
 
@@ -89,7 +92,7 @@ def combineTags(tag1, tag2):
         ret += "1" if int(x) & int(y) else "0"
     return ret
 
-asdf = findPrimeImplicants([[2, 3, 7], [4, 5, 7]], 3)
+asdf = findPrimeImplicants([[0, 2, 5, 6, 7], [2, 3, 5, 6, 7], [0, 2, 3, 4, 5]], 3)
 for p in asdf:
     print(p)
 # a, b, c = reduce([
