@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     print('Test adder')
     adder = synthesizeMultipleOutput([[1, 2, 4, 7], [3, 5, 6, 7]], 3)
-    for i, logic in enumerate(test2):
+    for i, logic in enumerate(adder):
         if (i == 0):
             print('Sum')
         else:
