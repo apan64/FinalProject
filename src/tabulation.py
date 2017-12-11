@@ -99,7 +99,7 @@ def convertToTreeMultiple(combs):
                     q.append(inputNodes[chr(97 + i)])
                 elif (val == '0'):
                     un = UnaryNode(fn = lambda x: not(x), name = 'not', arg1 = inputNodes[chr(97 + i)])
-                    unStr = un.toString()
+                    unStr = repr(un)
                     if unStr not in done:
                         done[unStr] = un
                         q.append(un)
@@ -107,7 +107,7 @@ def convertToTreeMultiple(combs):
                         q.append(done[unStr])
             while len(q) > 1:
                 binary = BinaryNode(fn = lambda x, y: (x and y), name = 'and', arg1 = q.popleft(), arg2 = q.popleft())
-                binStr = binary.toString()
+                binStr = repr(binary)
                 if binStr not in done:
                     done[binStr] = binary
                     q.append(binary)
@@ -116,7 +116,7 @@ def convertToTreeMultiple(combs):
             orQ.append(q.popleft())
         while len(orQ) > 1:
             binary = BinaryNode(fn = lambda x, y: (x or y), name = 'or', arg1 = orQ.popleft(), arg2 = orQ.popleft())
-            binStr = binary.toString()
+            binStr = repr(binary)
             if binStr not in done:
                 done[binStr] = binary
                 orQ.append(binary)
@@ -136,21 +136,14 @@ def tabulationSingleOutput(implicants, minTerms):
     return convertToTree(bestComb)
 
 def tabulationMultipleOutput(implicants, minTermsInputs):
-    print(implicants)
     outputImplicants = [[] for i in range(len(minTermsInputs))]
     for imp in implicants:
         for i, char in enumerate(imp.fnTags):
             if (char == '1'):
                 outputImplicants[i].append(imp)
     outputCombinations = [computeCombinations(imp, minTermsInputs[i]) for i, imp in enumerate(outputImplicants)]
-    print(outputCombinations)
     bestCombinations = [list(piAns.union(min(possibleComb, key = lambda comb: sum(cost(c) for c in comb)))) for possibleComb, piAns in outputCombinations]
     bestCost = [(sum(cost(c) for c in comb)) for comb in bestCombinations]
-
-    # nonEssentialCombs = [comb for comb, piAns in outputCombinations]
-    # print(nonEssentialCombs)
-
-    # return []
 
     for i, combinationTup in enumerate(outputCombinations):
         for comb in combinationTup[0]:
@@ -174,22 +167,3 @@ def tabulationMultipleOutput(implicants, minTermsInputs):
                             bestCombinations[replacementI] = replacementComb.union(set(outputCombinations[replacementI][1]))
                             bestCost[replacementI] = sum(cost(c) for c in replacementComb)
     return convertToTreeMultiple(bestCombinations)
-
-
-# Implicant = namedtuple('Implicant', ['bin_str', 'minterms', 'isPrime', 'fnTags'])
-# Is = [Implicant(b, frozenset(t), True, ta) for (b, t, ta) in [('001', [1], '10'), ('010', [2], '10'), ('100', [4], '10'), ('111', [7], '11'), ('-11', [3, 7], '01'), ('1-1', [5, 7], '01'), ('11-', [6, 7], '01')]]
-# mt = [[1, 2, 4, 7], [3, 5, 6, 7]]
-# adder = tabulationMultipleOutput(Is, mt)
-# for i, logic in enumerate(adder):
-#     if (i == 0):
-#         print('Sum')
-#     else:
-#         print('Cout')
-#     print(logic.eval({'a': True, 'b': True, 'c': True})) #111 t t
-#     print(logic.eval({'a': True, 'b': True, 'c': False})) #110 f t
-#     print(logic.eval({'a': True, 'b': False, 'c': True})) #101 f t
-#     print(logic.eval({'a': True, 'b': False, 'c': False})) #100 t f
-#     print(logic.eval({'a': False, 'b': True, 'c': True})) #011 f t
-#     print(logic.eval({'a': False, 'b': True, 'c': False})) #010 t f
-#     print(logic.eval({'a': False, 'b': False, 'c': True})) #001 t f
-#     print(logic.eval({'a': False, 'b': False, 'c': False})) #000 f f
