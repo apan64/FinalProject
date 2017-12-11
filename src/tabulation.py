@@ -164,36 +164,3 @@ def tabulationMultipleOutput(implicants, minTermsInputs):
                             bestCombinations[replacementI] = replacementComb.union(set(outputCombinations[replacementI][1]))
                             bestCost[replacementI] = sum(cost(c) for c in replacementComb)
     return convertToTreeMultiple(bestCombinations)
-
-
-
-
-
-    # combinationSets = []
-    # for possibleComb, piAns in outputCombinations:
-    #     curSet = set()
-    #     for comb in possibleComb:
-    #         curSet.add()
-    
-    # create dict containing terms mapping to combinations using them
-    # possibleTerms = {}
-    # for possibleComb, piAns in outputCombinations:
-    #     for comb in possibleComb:
-    #         for term in comb:
-    #             if term not in possibleTerms:
-    #                 possibleTerms[term] = []
-    #             possibleTerms[term].append(comb)
-    # print(outputCombinations)
-    # print(bestCombinations)
-    # print(possibleTerms)
-
-
-    # # search through all terms in each function and find overlapping terms, compute the cost of sharing that term across all and parts of all functions
-    # checked = set()
-    # for i, funcTerms in enumerate(possibleTerms[:-1]):
-    #     for term in funcTerms:
-    #         if term not in checked:
-    #             checked.add(term)
-    #             for j, funcTerms2 in enumerate(possibleTerms[1:]):
-    #                 if term in funcTerms2:
-
