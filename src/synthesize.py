@@ -47,6 +47,8 @@ if __name__ == '__main__':
         for j, t in enumerate(tests):
             if (logic.eval(t) != expected[i][j]):
                 print('Part {} Test {} failed'.format(i + 1, j + 1))
+    print('')
+    print(adder)
 
     print('\n\nTest alu')
     alu = synthesizeMultipleOutput([[8, 16, 9, 17, 10, 18, 11, 28, 5, 13, 21, 29, 6, 15, 23, 31], [24], [9]], 5)
@@ -58,6 +60,7 @@ if __name__ == '__main__':
         for j, t in enumerate(tests):
             if (logic.eval(t) != expected[i][j]):
                 print('Part {} Test {} failed'.format(i + 1, j + 1))
+    print('')
     print(alu)
 
     # print('\n\nTest 4 bit alu')

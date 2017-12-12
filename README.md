@@ -13,11 +13,11 @@ The Quine-McCluskey Algorithm has two major parts. The first finding the prime i
 ### Results
 Ultimately we were successful in creating an architecture that could synthesize combinational circuits given a description of the input. The comparison charts for our circuits is shown below:
 
-1-Bit Adder(Computer Generated): Area: 33, Latency: 5
+1-Bit Adder(Computer Generated): Area: 33, Latency: 9
 
 1-Bit Adder(Hand Generated): Area: 29, Latency 7
 
-1-Bit ALU (Computer Generated): 
+1-Bit ALU (Computer Generated): Area: 63, Latency: 13
 
 1-Bit ALU (Hand Generated): Area: 146, Latency 21
 

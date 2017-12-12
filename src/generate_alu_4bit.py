@@ -172,4 +172,7 @@ def genALU4bitMT():
     return outputs
 
 if __name__ == '__main__':
-    print(genALU4bitMT())
+    x = genALU4bitMT()
+    print(x)
+    print(len(x))
+    print(sum(len(y) for y in x))
