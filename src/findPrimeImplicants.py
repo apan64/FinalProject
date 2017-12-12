@@ -15,8 +15,8 @@ def findPrimeImplicants(fnToMinTerms, num_inputs):
     all_terms = list(set(chain.from_iterable(fnToMinTerms)))
     # 2 -> '010', 3 -> '011'
     bin_rep = ["{0:b}".format(t).zfill(num_inputs) for t in all_terms]
-    print(bin_rep)
-    print(all_terms)
+    # print(bin_rep)
+    # print(all_terms)
     # Store which minTerm belongs to which function
     tags = {}
     for t in all_terms:
@@ -92,9 +92,9 @@ def combineTags(tag1, tag2):
         ret += "1" if int(x) & int(y) else "0"
     return ret
 
-asdf = findPrimeImplicants([[0, 2, 5, 6, 7], [2, 3, 5, 6, 7], [0, 2, 3, 4, 5]], 3)
-for p in asdf:
-    print(p)
+# asdf = findPrimeImplicants([[0, 2, 5, 6, 7], [2, 3, 5, 6, 7], [0, 2, 3, 4, 5]], 3)
+# for p in asdf:
+#     print(p)
 # a, b, c = reduce([
 #               Implicant(bin_str='010', minterms=frozenset({2}), isPrime=True, fnTags='10'),
 #               Implicant(bin_str='100', minterms=frozenset({4}), isPrime=True, fnTags='01')

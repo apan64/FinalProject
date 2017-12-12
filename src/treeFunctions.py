@@ -31,3 +31,23 @@ def calcArea(head):
 			q.append(curNode.arg2)
 			area += 2
 	return area
+
+def calcAreaMultiHelper(head, seen):
+	if (isinstance(head, VariableNode)):
+		return 0
+	if (repr(head) in seen):
+		return 0
+	area = 0
+	area += calcAreaMultiHelper(head.arg1, seen) + 1
+	if (isinstance(head, BinaryNode)):
+		area += calcAreaMultiHelper(head.arg2, seen) + 1
+	seen[repr(head)] = area
+	return area
+
+def calcAreaMultiHead(heads):
+	area = 0
+	seen = {}
+	for head in heads:
+		area += calcAreaMultiHelper(head, seen)
+	return area
+

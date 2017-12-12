@@ -1,5 +1,7 @@
 from eqNodes import VariableNode, UnaryNode, BinaryNode
+from collections import defaultdict, namedtuple
 from collections import deque
+from itertools import product
 
 def cost(PI):
 	return 1 + sum(1 for x in PI if x != '-')
@@ -97,7 +99,7 @@ def convertToTreeMultiple(combs):
                     q.append(inputNodes[chr(97 + i)])
                 elif (val == '0'):
                     un = UnaryNode(fn = lambda x: not(x), name = 'not', arg1 = inputNodes[chr(97 + i)])
-                    unStr = un.toString()
+                    unStr = repr(un)
                     if unStr not in done:
                         done[unStr] = un
                         q.append(un)
@@ -105,7 +107,7 @@ def convertToTreeMultiple(combs):
                         q.append(done[unStr])
             while len(q) > 1:
                 binary = BinaryNode(fn = lambda x, y: (x and y), name = 'and', arg1 = q.popleft(), arg2 = q.popleft())
-                binStr = binary.toString()
+                binStr = repr(binary)
                 if binStr not in done:
                     done[binStr] = binary
                     q.append(binary)
@@ -114,7 +116,7 @@ def convertToTreeMultiple(combs):
             orQ.append(q.popleft())
         while len(orQ) > 1:
             binary = BinaryNode(fn = lambda x, y: (x or y), name = 'or', arg1 = orQ.popleft(), arg2 = orQ.popleft())
-            binStr = binary.toString()
+            binStr = repr(binary)
             if binStr not in done:
                 done[binStr] = binary
                 orQ.append(binary)
@@ -142,6 +144,7 @@ def tabulationMultipleOutput(implicants, minTermsInputs):
     outputCombinations = [computeCombinations(imp, minTermsInputs[i]) for i, imp in enumerate(outputImplicants)]
     bestCombinations = [list(piAns.union(min(possibleComb, key = lambda comb: sum(cost(c) for c in comb)))) for possibleComb, piAns in outputCombinations]
     bestCost = [(sum(cost(c) for c in comb)) for comb in bestCombinations]
+
     for i, combinationTup in enumerate(outputCombinations):
         for comb in combinationTup[0]:
             for term in comb:
