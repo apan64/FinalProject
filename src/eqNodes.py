@@ -1,3 +1,5 @@
+import plotTree
+
 class VariableNode:
     def __init__(self, name):
         self.name = name.lower()
@@ -42,3 +44,49 @@ class BinaryNode:
 
     def __repr__(self):
         return "{0}({1}, {2})".format(self.name, self.arg1, self.arg2)
+
+    def plot(self):
+        vertices, numVertices = getVertices(self)
+        nodesToID = {v: k for k, v in vertices.items()}
+        plotTree.plotTree(vertices, getEdges(b_and_not_a, nodesToID), numVertices)
+
+
+
+def getVertices(head, i=0):
+    """Returns all vertices in graph as a dictionary of vertex_n : <node>"""
+    vertices = {}
+    if hasattr(head, 'arg1'):
+        child_vertices, i = getVertices(head.arg1, i)
+        vertices = merge_two_dicts(vertices, child_vertices)
+    vertices = merge_two_dicts(vertices, {i: head})
+    i += 1
+    if hasattr(head, 'arg2'):
+        child_vertices, i = getVertices(head.arg2, i)
+        vertices = merge_two_dicts(vertices, child_vertices)
+    return vertices, i
+
+
+def merge_two_dicts(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
+
+
+def getEdges(head, nodesToID):
+    edges = []
+    if hasattr(head, 'arg1'):
+        edges.append((nodesToID[head], nodesToID[head.arg1]))
+        child_edges = getEdges(head.arg1, nodesToID)
+        edges += child_edges
+    if hasattr(head, 'arg2'):
+        edges.append((nodesToID[head], nodesToID[head.arg2]))
+        child_edges = getEdges(head.arg2, nodesToID)
+        edges += child_edges
+    return edges
+
+a = VariableNode(name='a')
+not_a = UnaryNode(fn=lambda x: not(x), name='not', arg1=a)
+b = VariableNode(name='b')
+b_and_not_a = BinaryNode(fn=lambda x, y: (x and y), name='and', arg1=b, arg2=not_a)
+
+b_and_not_a.plot()
