@@ -1,4 +1,4 @@
-import plotTree
+# import plotTree
 
 class VariableNode:
     def __init__(self, name):
@@ -45,10 +45,10 @@ class BinaryNode:
     def __repr__(self):
         return "{0}({1}, {2})".format(self.name, self.arg1, self.arg2)
 
-    def plot(self):
-        vertices, numVertices = getVertices(self)
-        nodesToID = {v: k for k, v in vertices.items()}
-        plotTree.plotTree(vertices, getEdges(b_and_not_a, nodesToID), numVertices)
+    # def plot(self):
+    #     vertices, numVertices = getVertices(self)
+    #     nodesToID = {v: k for k, v in vertices.items()}
+    #     plotTree.plotTree(vertices, getEdges(b_and_not_a, nodesToID), numVertices)
 
 
 
@@ -84,9 +84,9 @@ def getEdges(head, nodesToID):
         edges += child_edges
     return edges
 
-a = VariableNode(name='a')
-not_a = UnaryNode(fn=lambda x: not(x), name='not', arg1=a)
-b = VariableNode(name='b')
-b_and_not_a = BinaryNode(fn=lambda x, y: (x and y), name='and', arg1=b, arg2=not_a)
+# a = VariableNode(name='a')
+# not_a = UnaryNode(fn=lambda x: not(x), name='not', arg1=a)
+# b = VariableNode(name='b')
+# b_and_not_a = BinaryNode(fn=lambda x, y: (x and y), name='and', arg1=b, arg2=not_a)
 
-b_and_not_a.plot()
+# b_and_not_a.plot()
