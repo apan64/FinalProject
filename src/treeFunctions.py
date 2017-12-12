@@ -8,9 +8,11 @@ def calcLatency(head):
 	if (head is None or isinstance(head, VariableNode)):
 		return 0
 	nodes = [calcLatency(head.arg1)]
+	extra = 0
 	if (isinstance(head, BinaryNode)):
 		nodes.append(calcLatency(head.arg2))
-	return 1 + max(nodes)
+		extra = 1
+	return 1 + max(nodes) + extra
 
 
 def calcArea(head):
@@ -29,7 +31,7 @@ def calcArea(head):
 			area += 1
 		elif (isinstance(curNode, BinaryNode)):
 			q.append(curNode.arg2)
-			area += 2
+			area += 3
 	return area
 
 def calcAreaMultiHelper(head, seen):

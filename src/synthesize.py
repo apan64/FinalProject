@@ -1,6 +1,7 @@
 from findPrimeImplicants import findPrimeImplicants
 from tabulation import tabulationSingleOutput, tabulationMultipleOutput
 from treeFunctions import calcLatency, calcArea, calcAreaMultiHead
+from generate_alu_4bit import genALU4bitMT
 
 def synthesizeSingleOutput(minTerms, numInputs):
     '''
@@ -46,3 +47,27 @@ if __name__ == '__main__':
         for j, t in enumerate(tests):
             if (logic.eval(t) != expected[i][j]):
                 print('Part {} Test {} failed'.format(i + 1, j + 1))
+
+    print('\n\nTest alu')
+    alu = synthesizeMultipleOutput([[8, 16, 9, 17, 10, 18, 11, 28, 5, 13, 21, 29, 6, 15, 23, 31], [24], [9]], 5)
+    expected = [(0, 1, 0, 1, 1), (0, 0, 1, 0, 0), (0, 0, 0, 1, 0)]
+    tests = [{'a': False, 'b': False, 'c': False, 'd': False, 'e': False}, {'a': False, 'b': True, 'c': False, 'd': False, 'e': False}, {'a': True, 'b': True, 'c': False, 'd': False, 'e': False}, {'a': False, 'b': True, 'c': False, 'd': False, 'e': True}, {'a': True, 'b': True, 'c': True, 'd': True, 'e': True}]
+    print('Area: {}'.format(calcAreaMultiHead(alu)))
+    for i, logic in enumerate(alu):
+        print('Part {} Latency: {}'.format(i + 1, calcLatency(logic)))
+        for j, t in enumerate(tests):
+            if (logic.eval(t) != expected[i][j]):
+                print('Part {} Test {} failed'.format(i + 1, j + 1))
+    print(alu)
+
+    # print('\n\nTest 4 bit alu')
+    # alu4bit = synthesizeMultipleOutput(genALU4bitMT(), 11)
+    # print(alu4bit)
+    # expected = [(0, 1, 0, 1, 1), (0, 0, 1, 0, 0), (0, 0, 0, 1, 0)]
+    # tests = [{'a': False, 'b': False, 'c': False, 'd': False, 'e': False}, {'a': False, 'b': True, 'c': False, 'd': False, 'e': False}, {'a': True, 'b': True, 'c': False, 'd': False, 'e': False}, {'a': False, 'b': True, 'c': False, 'd': False, 'e': True}, {'a': True, 'b': True, 'c': True, 'd': True, 'e': True}]
+    # print('Area: {}'.format(calcAreaMultiHead(alu4bit)))
+    # for i, logic in enumerate(alu4bit):
+    #     print('Part {} Latency: {}'.format(i + 1, calcLatency(logic)))
+    #     for j, t in enumerate(tests):
+    #         if (logic.eval(t) != expected[i][j]):
+    #             print('Part {} Test {} failed'.format(i + 1, j + 1))
